@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --foreground-rgb: #353535;
+  --background-start-rgb: #f8f8f8;
   --background-end-rgb: 255, 255, 255;
 }
 
@@ -19,4 +19,17 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-start-rgb));
+}
+
+main {
+  margin: 0;
+  padding: 0;
+}
+
+.hero h3 {
+  color: #555;
+}
+
+.hero h1 {
+  color: #333;
 }
