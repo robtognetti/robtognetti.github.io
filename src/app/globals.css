@@ -4,7 +4,7 @@
 
 :root {
   --foreground-rgb: #353535;
-  --background-start-rgb: #f8f8f8;
+  --background-start-rgb: #b8a07e;
   --background-end-rgb: 255, 255, 255;
 }
 
@@ -26,10 +26,35 @@ main {
   padding: 0;
 }
 
+p a {
+  color: chocolate;
+  font-weight: 700;
+  text-shadow: #f9f9f9 1px 1px;
+}
+
+p a:hover {
+  text-decoration: dotted underline black;
+}
+
 .hero h3 {
   color: #555;
 }
 
 .hero h1 {
   color: #333;
+}
+
+.div-img {
+	padding-bottom: 30px;
+	border: 20px solid #b8a07e;
+}
+
+.div-img .about-img img {
+	width: 100%;
+	box-shadow: 0px 0px 85px 0px rgba(0, 0, 0, 0.14);
+	margin-top: -60px;
+	margin-left: 40px;
+	height: 400px;
+	-o-object-fit: cover;
+	object-fit: cover;
 }

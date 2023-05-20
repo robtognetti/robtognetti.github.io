@@ -35,17 +35,18 @@ const mySocial = [
 
 class Social extends Component<Props, State> {
   state = {}
-  social = (link: string, children: ReactElement) => <a href={ link } target='blank' className='hover:shadow-lg hover:text-cyan-900'>{ children }</a>
+  public social = (link: string, children: ReactElement) => <a key={ link } href={ link } target='blank' className='hover:shadow-lg hover:text-cyan-900'>{ children }</a>
 
   render() {
     return (
       <IconContext.Provider value={{ size: '1.5em' }}>
-        <div className='flex flex-row gap-x-4 ml-20 mt-4'>
+        <div className='flex flex-row gap-x-4 ml-8 md:ml-20 mt-4 bg-white bg-opacity-40 md:bg-transparent w-fit p-2'>
           { mySocial.map(({ url, component }) => this.social(url, component)) }
         </div>
       </IconContext.Provider>
     )
   }
 }
+
 
 export default Social
