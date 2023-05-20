@@ -1,4 +1,4 @@
-import React, { Component, ReactElement } from 'react';
+import React, { Component, ComponentElement, ReactComponentElement, ReactElement } from 'react';
 import { BsGithub, BsTwitter, BsInstagram, BsLinkedin, BsWhatsapp } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 
@@ -35,6 +35,7 @@ const mySocial = [
 
 class Social extends Component<Props, State> {
   state = {}
+
   public social = (link: string, children: ReactElement) => <a key={ link } href={ link } target='blank' className='hover:shadow-lg hover:text-cyan-900'>{ children }</a>
 
   render() {

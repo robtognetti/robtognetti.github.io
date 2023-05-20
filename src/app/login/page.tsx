@@ -1,37 +1,29 @@
 'use client'
-import React, { Component } from 'react'
-import GoogleButton from 'react-google-button';
-import signIn from '@/firebase/auth/signin';
+import React from 'react';
+import { BsGithub } from 'react-icons/bs';
+import { useSession, signIn, signOut } from 'next-auth/react';
+import UserCard from '../components/UserCard'
 
-type Props = {}
-type State = {}
+export default function Login() {
+  const { data: session } = useSession();
 
-export default class Login extends Component<Props, State> {
-  state = {
-    user: null
-  }
-
-  public loginComGoogle = () => {
-    signIn().then((response) => {
-      this.setState({
-        user: response.result.user
-      });
-      console.log('logado!');
-    })
-  }
-
-  render() {
+  if (session) {
     return (
       <main className='flex items-center justify-center w-full h-[100vh]'>
-        {
-          this.state.user && (<div>Olá, bem vindo.</div>)
-        }
-        <GoogleButton
-          type='light'
-          label='Conectar com Google'
-          onClick={ this.loginComGoogle }
-        />
+        <button onClick={ () => signOut() }>
+          Desconectar
+        </button>
+        <UserCard user={ session?.user } />
       </main>
     )
+  } else {
+    return (
+      <button
+        className='flex flex-row gap-4 items-center bg-zinc-50 p-2 border-2 rounded-md'
+        onClick={ () => signIn() }
+      >
+        <BsGithub /> Conectar com Github
+      </button>
+    )
   }
-}
+};
