@@ -1,8 +1,8 @@
 'use client'
+import Image from 'next/image'
 import React, { Component } from 'react'
 
 type Props = {}
-
 type State = {}
 
 class About extends Component<Props, State> {
@@ -14,7 +14,7 @@ class About extends Component<Props, State> {
         <div className='my-16 mx-8 min-w-[400px]'>
           <div className='div-img'>
             <div className='about-img'>
-              <img src='/mewithasuit.png' alt='This is me' />
+              <Image src='/mewithasuit.png' alt='This is me' width={ 500 } height={ 500 } />
             </div>
           </div>
         </div>
@@ -22,10 +22,10 @@ class About extends Component<Props, State> {
           <div className='flex flex-col gap-4 tracking-wide md:text-normal'>
             <h1 className='font-bold text-xl'>Hello again, world.</h1>
             <p className='indent-6'>
-              My first contact with programming was creating shortcuts with <a href="https://pt.wikipedia.org/wiki/QBasic" target="blank">Qbasic</a> on my father's Pentium 386. Growing up like any other teenager, I enjoyed sports and computers, so I started writing and designing <a href="http://www.mirc.com" target='blank'>mIRC scripts</a> sports themed.
+              My first contact with programming was creating shortcuts with <a href="https://pt.wikipedia.org/wiki/QBasic" target="blank">Qbasic</a> on my father&apos;s Pentium 386. Growing up like any other teenager, I enjoyed sports and computers, so I started writing and designing <a href="http://www.mirc.com" target='blank'>mIRC scripts</a> sports themed.
             </p>
             <p className='indent-6'>
-              After that, I was asked to integrate some PHP snippets and MySQL queries into my friend's website. Then I started using <a href="https://www.joomla.org/" target="blank">Joomla</a>, <a href="https://simplemachines.org/" target="blank">SMF</a> and <a href="https://wordpress.org/" target="blank">Wordpress</a>, developing themes and tweaking plugins for myself and my friends as my managed online communities grew and grew.
+              After that, I was asked to integrate some PHP snippets and MySQL queries into my friend&apos;s website. Then I started using <a href="https://www.joomla.org/" target="blank">Joomla</a>, <a href="https://simplemachines.org/" target="blank">SMF</a> and <a href="https://wordpress.org/" target="blank">Wordpress</a>, developing themes and tweaking plugins for myself and my friends as my managed online communities grew and grew.
             </p>
             <p className='indent-6'>
               Then a drunk driver hit me in my parked car. After hours in the hospital, I woke up and realized I was missing some of my memories, triggering me to become a criminal law attorney.

@@ -13,7 +13,7 @@ export default function Login() {
         <button onClick={ () => signOut() }>
           Desconectar
         </button>
-        <UserCard user={ session?.user } />
+        {/* <UserCard user={ session.user } /> */}
       </main>
     )
   } else {
