@@ -7,7 +7,7 @@ import AddProject from '../components/Admin/AddProject';
 import ManageProject from '../components/Admin/ManageProject';
 type Props = {}
 
-export default function page({}: Props) {
+export default function Page({}: Props) {
   const [user, setUser] = useState({} as any);
 
   initFirebase();
@@ -20,7 +20,7 @@ export default function page({}: Props) {
       else setUser({});
     });
     return () => unsubscribe();
-  }, [])
+  }, [auth])
 
   const signIn = async () => {
     const result = await signInWithPopup(auth, provider);
