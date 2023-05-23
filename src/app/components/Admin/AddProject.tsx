@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 type Props = {
   handleWarning: (message: string) => void;
@@ -20,7 +20,7 @@ export default function AddProject({ handleWarning }: Props) {
     uploadTask.on('state_changed',
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        handleWarning('Upload is ' + progress + '% done');
+        handleWarning('Uploading... ' + progress.toFixed(2) + '%');
         switch (snapshot.state) {
           case 'paused':
             handleWarning('Upload is paused');
@@ -30,13 +30,15 @@ export default function AddProject({ handleWarning }: Props) {
       (error) => { handleWarning(error.message) },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          handleWarning('Upload successfull!')
+          handleWarning('Upload complete!')
           setImageUrl(downloadURL)
           setUploading(false);
         });
       }
     );
   }
+
+  const invalidFields = imageUrl === ''
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -60,14 +62,14 @@ export default function AddProject({ handleWarning }: Props) {
     await fetch(endpoint, options)
       .then((res) => res.json())
       .then((data) => {
-        if (data.message === 'SUCCESS')
-          handleWarning('201: Projeto cadastrado com sucesso');
-        else
-          handleWarning(
-            data.message || 'Ocorreu um erro ao cadastrar o projeto',
-          );
+        if (data.message !== 'SUCCESS') handleWarning(data.message || 'Something wrong saving your project. Are you connected?');
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => alert(error.message))
+      .finally(() => {
+        setSelectedImage('');
+        setImageUrl('');
+        return handleWarning(`Project ${slug} saved in your database`)
+      });
   };
 
   return (
@@ -75,87 +77,100 @@ export default function AddProject({ handleWarning }: Props) {
       <h1 className='text-xl uppercase text-yellow-950 font-extrabold'>
         ADD NEW PROJECT
       </h1>
-      <div className='mt-6'>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-          <label htmlFor='projectname' className='flex flex-col text-xs'>
-            Project title:
-            <input
-              id='projectname'
-              required
-              type='text'
-              placeholder='Project name'
-              onChange={ (event) => setSlug(event.target.value.toLowerCase().replace(/ /g, '_')) }
-              className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
-            />
-          </label>
-          <label htmlFor='projectname' className='flex flex-col text-xs'>
-            This is the project slug
-            <input
-              className='h-6 p-2 border-[1px] border-sky-700 rounded disabled:text-gray-500'
-              disabled={ true }
-              type='text'
-              value={ slug }
-            />
-          </label>
-          <label htmlFor='description' className='flex flex-col text-xs'>
-            Description:
-            <textarea
-              id='description'
-              placeholder='Type a description of your project'
-              className='h-40 p-2 text-sm border-[1px] border-sky-700 rounded'
-            />
-          </label>
-          <label htmlFor='githuburl' className='flex flex-col text-xs'>
-            Github URL (optional)
-            <input
-              id='githuburl'
-              type='text'
-              placeholder='The URL for your GH repo project'
-              className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
-            />
-          </label>
-          <label htmlFor='deployurl' className='flex flex-col text-xs'>
-            Deploy URL (optional)
-            <input
-              id='deployurl'
-              type='text'
-              placeholder='The URL for your project deployed'
-              className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
-            />
-          </label>
-          <label>
-            <input
-              type='file'
-              hidden
-              onChange={ ({target}) => {
-                if (target.files) {
-                  const file = target.files[0];
-                  setSelectedImage(URL.createObjectURL(file));
-                  setSelectedFile(file);
-                }
-              }}
-            />
-            <div className='aspect-video rounded flex items-center justify-center border-2 border-dashed cursor-pointer'>
-              {selectedImage ? (
-                <img src={selectedImage} alt='Screenshot of your project' style={{ maxWidth: '400px' }} />
-              ) : (
-                <span>Select screenshot</span>
-              )}
+      <div className='mt-6 w-full'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4 items-center'>
+
+          {/* Project info div */}
+          <div className='flex flex-col md:flex-row gap-x-10'>
+            <div className='flex flex-col gap-4'>
+              <label htmlFor='projectname' className='flex flex-col text-xs'>
+                Project title:
+                <input
+                  id='projectname'
+                  required
+                  type='text'
+                  placeholder='Project name'
+                  onChange={(event) => setSlug(event.target.value.toLowerCase().replace(/ /g, '_'))}
+                  className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
+                />
+              </label>
+              <label htmlFor='projectname' className='flex flex-col text-xs'>
+                This is the project slug
+                <input
+                  className='h-6 p-2 border-[1px] border-sky-700 rounded disabled:text-gray-500'
+                  disabled={true}
+                  type='text'
+                  value={slug}
+                />
+              </label>
+              <label htmlFor='description' className='flex flex-col text-xs'>
+                Description:
+                <textarea
+                  id='description'
+                  placeholder='Type a description of your project'
+                  className='h-40 p-2 text-sm border-[1px] border-sky-700 rounded'
+                />
+              </label>
+              <label htmlFor='githuburl' className='flex flex-col text-xs'>
+                Github URL (optional)
+                <input
+                  id='githuburl'
+                  type='text'
+                  placeholder='http://github.com...'
+                  className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
+                />
+              </label>
+              <label htmlFor='deployurl' className='flex flex-col text-xs'>
+                Deploy URL (optional)
+                <input
+                  id='deployurl'
+                  type='text'
+                  placeholder='http://www.mywebsite.com'
+                  className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
+                />
+              </label>
             </div>
-          </label>
-          <button
-            disabled={ uploading }
-            style={{ opacity: uploading ? '.5' : '1' }}
-            className='bg-red-600 p-2 text-center rounded text-white'
-            onClick={handleUpload}
-          >
-            { uploading ? 'Wait...' : 'Upload' }
-          </button>
+            
+            {/* Screenshot upload div */}
+            <div className='flex flex-col gap-4'>
+              <label className='flex flex-col text-xs'>
+                Upload screenshot:
+                <input
+                  type='file'
+                  hidden
+                  onChange={({ target }) => {
+                    if (target.files) {
+                      const file = target.files[0];
+                      setSelectedImage(URL.createObjectURL(file));
+                      setSelectedFile(file);
+                    }
+                  }}
+                />
+                <div className='aspect-video rounded flex w-96 items-center justify-center border-2 border-dashed cursor-pointer'>
+                  {selectedImage ? (
+                    <img src={selectedImage} alt='Screenshot of your project' style={{ maxWidth: '400px' }} />
+                  ) : (
+                    <span>Click to select</span>
+                  )}
+                </div>
+              </label>
+              <button
+                disabled={ uploading || !selectedImage }
+                style={{ opacity: uploading ? '.5' : '1' }}
+                className='bg-red-600 p-2 text-center rounded text-white disabled:bg-red-300 disabled:text-gray-100 disabled:cursor-not-allowed'
+                onClick={handleUpload}
+              >
+                {uploading ? 'Wait...' : 'Upload screenshot'}
+              </button>
+            </div>
+          </div>
           <button
             type='submit'
-            disabled={ uploading }
-            className='bg-blue-600 p-4 text-center rounded text-white'
-          >Cadastrar</button>
+            disabled={ invalidFields }
+            className='bg-blue-600 p-2 text-center rounded text-white w-[300px] disabled:bg-blue-300 disabled:text-gray-100 disabled:cursor-not-allowed'
+          >
+            Save project in database
+          </button>
         </form>
       </div>
     </section>

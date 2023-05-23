@@ -10,7 +10,7 @@ type Props = {}
 
 export default function Page({}: Props) {
   const [user, setUser] = useState({} as any);
-  const [warning, setWarning] = useState('' as string);
+  const [warning, setWarning] = useState<string | undefined>('' as string);
 
   // We're using Firebase auth here
   initFirebase();
@@ -27,13 +27,16 @@ export default function Page({}: Props) {
   }, [auth])
 
   const handleWarning = (message: string) => {
+    const warningTimeout = setTimeout(() => setWarning(undefined), 6000);
+    if (warning) {
+      clearTimeout(warningTimeout);
+      setWarning(message);
+      return warningTimeout;  
+    }
     setWarning(message);
-    return setTimeout(() => {
-      setWarning('');
-    }, 6000)
+    return warningTimeout;    
   }
 
-  // Don't forget to configure your enviromnent variables
   const signIn = async () => {
     const result = await signInWithPopup(auth, provider);
     setUser(result.user);
