@@ -41,7 +41,7 @@ class Social extends Component<Props, State> {
   render() {
     return (
       <IconContext.Provider value={{ size: '1.5em' }}>
-        <div className='flex flex-row gap-x-4 ml-8 md:ml-20 mt-4 bg-white bg-opacity-40 md:bg-transparent w-fit p-2'>
+        <div className='flex flex-row gap-x-4 ml-8 md:ml-20 mt-4 bg-white bg-opacity-40 md:bg-transparent w-fit py-1 px-2'>
           { mySocial.map(({ url, component }) => this.social(url, component)) }
         </div>
       </IconContext.Provider>
