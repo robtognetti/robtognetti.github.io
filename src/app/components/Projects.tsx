@@ -37,7 +37,7 @@ export default function Projects({}: Props) {
     getProjects();
   }, [])
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className='flex items-center justify-center h-20 text-center'>Loading projects...</div>;
 
   return (
     <section>

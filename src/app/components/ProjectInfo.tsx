@@ -41,27 +41,27 @@ export default function ProjectInfo({ project }: Props) {
   };
 
   return (
-    <div className='flex flex-col md:flex-row items-center justify-center h-screen w-full px-4 gap-4 text-sm'>
+    <div className='flex flex-col md:flex-row items-center justify-center min-h-screen w-full p-8 gap-4 text-sm'>
       {/* Project name div */}
-      <div className='md:w-[40vw] flex flex-col items-start gap-y-6 gap-x-8'>
+      <div className='md:w-[40vw] flex flex-col items-start gap-y-6'>
         <div className='flex flex-row'>
-          <div className='min-w-[200px] text-left font-light border-b-slate-400 border-b-[0.5px] mr-2'>
+          <div className='min-w-[130px] md:min-w-[200px] text-left font-light border-b-slate-400 border-b-[0.5px] mr-2'>
             Title
           </div>
-          <h1 className='font-bold ml-2'>{project.projectname}</h1>
+          <h1 className='font-semibold ml-2 tracking-wider'>{project.projectname}</h1>
         </div>
         {/* Description div */}
         <div className='flex flex-row'>
-          <div className='min-w-[200px] text-left font-light mr-2'>
+          <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
             <div className=' border-b-slate-400 border-b-[0.5px]'>
               Description
             </div>
           </div>
-          <p className='text-justify ml-2'>{project.description}</p>
+          <p className='text-justify ml-2 tracking-wider'>{project.description}</p>
         </div>
         {/* Stacks div */}
         <div className='flex flex-row'>
-          <div className='min-w-[200px] text-left font-light mr-2'>
+          <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
             <div className=' border-b-slate-400 border-b-[0.5px]'>Stacks</div>
           </div>
           <div className='flex flex-col gap-y-2 md:flex-row ml-2'>{ project.stacks?.map((stack) => (
@@ -75,7 +75,7 @@ export default function ProjectInfo({ project }: Props) {
         </div>
         {/* Links div */}
         <div className='flex flex-row'>
-          <div className='min-w-[200px] text-left font-light mr-2'>
+          <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
             <div className=' border-b-slate-400 border-b-[0.5px]'>
               Links
             </div>
@@ -86,19 +86,19 @@ export default function ProjectInfo({ project }: Props) {
                 <AiOutlineGithub /> Github repo
               </Link>)}
               {project.deployurl && (<Link href={project.deployurl} target='blank' className='flex flex-row text-xs gap-x-2 items-center px-2 py-[4px] border-zinc-500 border-[1px] rounded hover:bg-slate-100'>
-                <AiOutlineGlobal /> See it live
+                <AiOutlineGlobal /> Live version
               </Link>)}
             </IconContext.Provider>
           </div>
         </div>
       </div>
 
-      <div className='md:w-[58vw]' style={{ boxShadow: '10px 0 0 0 #f0f1f5' }}>
+      <div className='md:w-[58vw]'>
         <img
           key={project.slug}
           src={project.screenshot as string}
           alt={project.projectname}
-          style={{ maxHeight: '90vh', maxWidth: '90%', objectFit: 'contain' }}
+          style={{ maxHeight: '90vh', maxWidth: '90%', objectFit: 'contain', boxShadow: '-2px 2px 10px 0 #999' }}
         />
       </div>
     </div>

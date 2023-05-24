@@ -5,13 +5,13 @@ import {
   getAuth,
   signInWithPopup,
   onAuthStateChanged,
-  signOut,
 } from 'firebase/auth';
 import React, { Fragment, useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import AddProject from '../components/Admin/AddProject';
-import ManageProject from '../components/Admin/ManageProject';
 import HeaderMenu from '../components/Admin/HeaderMenu';
+import AddProject from '../components/Admin/AddProject';
+import AddFunFacts from '../components/Admin/AddFunFact';
+
 type Props = {};
 
 const stackList = [
@@ -94,7 +94,7 @@ export default function Page({}: Props) {
         <HeaderMenu warning={warning} />
         <main className='py-20'>
           <AddProject handleWarning={handleWarning} stackList={stackList} />
-          {/* <ManageProject /> */}
+          <AddFunFacts />
         </main>
       </Fragment>
     );

@@ -1,5 +1,5 @@
 import About from "./components/About";
-import AboutExtra from "./components/AboutExtra";
+import FunFacts from "./components/FunFacts";
 import { Hero } from "./components/Hero";
 import Projects from "./components/Projects";
 
@@ -8,8 +8,8 @@ export default function Home() {
     <main>
       <Hero />
       <About />
-      <AboutExtra />
       <Projects />
+      <FunFacts />
     </main>
   )
 }
