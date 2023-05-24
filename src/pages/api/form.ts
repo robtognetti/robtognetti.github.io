@@ -19,6 +19,6 @@ export default async function handler(
     return res.status(201).json({ message: 'SUCCESS' });
   } catch (err) {
     const error = err as Error;
-    return res.status(500).json({ message: error.message })
+    return res.status(400).json({ message: error.message })
   }
 }

@@ -2,18 +2,20 @@
 import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import ProjectInfo from './ProjectInfo';
 
-type Project = {
+export type Project = {
   slug: string,
   projectname: string,
   description?: string,
   githuburl?: string | undefined,
   deployurl?: string | undefined,
   screenshot?: string,
+  stacks: string[]
 }
 type Props = {}
 
-export default function Projects({ }: Props) {
+export default function Projects({}: Props) {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
 
@@ -38,30 +40,13 @@ export default function Projects({ }: Props) {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <section className='flex items-center justify-center'>
-      <div className='flex flex-row items-center justify-around max-h-screen max-w-screen'>
-        <Carousel
-          infiniteLoop={ true }
-        >
-          {!loading && projects.map((project: Project) => (
-            <div className='flex flex-col md:flex-row items-center justify-around h-screen px-4 gap-x-4'>
-              <div className='flex flex-col items-center max-w-md'>
-                <h1 className='font-bold text-2xl mb-4'>{ project.projectname }</h1>
-                <p className='text-sm text-justify'>{ project.description }</p>
-              </div>
-              <div className='w-fit'>
-                <img
-                  key={project.slug}
-                  src={project.screenshot as string}
-                  alt={project.projectname}
-                  style={{ maxHeight: '90vh', maxWidth: '100%' }}
-                  className='shadow-xl'
-                />
-              </div>
-            </div>
-            ))}
-        </Carousel>
-      </div>
+    <section>
+      <Carousel
+        infiniteLoop={true}
+        showThumbs={false}
+      >
+        {!loading && projects.map((project: Project) => (<ProjectInfo key={ project.slug } project={ project } />))}
+      </Carousel>
     </section>
   )
 }

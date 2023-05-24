@@ -21,11 +21,13 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-responsive-carousel": "^3.2.23",
+    "react-tag-input": "^6.8.1",
     "react-ts-typewriter": "^0.1.8-b",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@types/react": "^18.2.6"
+    "@types/react": "^18.2.6",
+    "@types/react-tag-input": "^6.6.1"
   }
 }

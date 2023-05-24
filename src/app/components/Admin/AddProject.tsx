@@ -1,25 +1,62 @@
 import React, { useState } from 'react';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
+import { WithContext as ReactTags } from 'react-tag-input';
 
 type Props = {
   handleWarning: (message: string) => void;
+  stackList: string[];
 };
 
-export default function AddProject({ handleWarning }: Props) {
+type Tag = {
+  id: string;
+  text: string;
+};
+
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
+
+export default function AddProject({ handleWarning, stackList }: Props) {
   const [uploading, setUploading] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedFile, setSelectedFile] = useState<File>();
   const [imageUrl, setImageUrl] = useState('');
   const [slug, setSlug] = useState('');
+  const [tags, setTags] = useState<Tag[]>([]);
+  const suggestions = stackList.map((tag) => {
+    return {
+      id: tag,
+      text: tag,
+    };
+  });
+
+  const handleDelete = (i: any) => setTags(tags.filter((_, index) => index !== i));
+  const handleAddition = (tag: Tag) => setTags((prev) => [...prev, tag]);
+  const handleDrag = (tag: Tag, currPos: any, newPos: any) => {
+    const newTags = tags.slice();
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
+    setTags(newTags);
+  };
 
   const handleUpload = async () => {
     setUploading(true);
     const storage = getStorage();
     const storageRef = ref(storage, slug + '/' + selectedFile?.name);
-    const uploadTask = uploadBytesResumable(storageRef, selectedFile as File)
-    uploadTask.on('state_changed',
+    const uploadTask = uploadBytesResumable(storageRef, selectedFile as File);
+    uploadTask.on(
+      'state_changed',
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         handleWarning('Uploading... ' + progress.toFixed(2) + '%');
         switch (snapshot.state) {
           case 'paused':
@@ -27,18 +64,20 @@ export default function AddProject({ handleWarning }: Props) {
             break;
         }
       },
-      (error) => { handleWarning(error.message) },
+      (error) => {
+        handleWarning(error.message);
+      },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          handleWarning('Upload complete!')
-          setImageUrl(downloadURL)
+          handleWarning('Upload complete!');
+          setImageUrl(downloadURL);
           setUploading(false);
         });
-      }
+      },
     );
-  }
+  };
 
-  const invalidFields = imageUrl === ''
+  const invalidFields = imageUrl === '';
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -48,6 +87,7 @@ export default function AddProject({ handleWarning }: Props) {
       description: event.target.description.value,
       githuburl: event.target.githuburl.value,
       deployurl: event.target.deployurl.value,
+      stacks: tags.map((tag) => tag.id),
       screenshot: imageUrl,
     };
     const JSONdata = JSON.stringify(data);
@@ -62,13 +102,17 @@ export default function AddProject({ handleWarning }: Props) {
     await fetch(endpoint, options)
       .then((res) => res.json())
       .then((data) => {
-        if (data.message !== 'SUCCESS') handleWarning(data.message || 'Something wrong saving your project. Are you connected?');
+        if (data.message !== 'SUCCESS')
+          handleWarning(
+            data.message ||
+              'Something wrong saving your project. Are you connected?',
+          );
       })
       .catch((error) => alert(error.message))
       .finally(() => {
         setSelectedImage('');
         setImageUrl('');
-        return handleWarning(`Project ${slug} saved in your database`)
+        return handleWarning(`Project ${slug} saved in your database`);
       });
   };
 
@@ -78,8 +122,10 @@ export default function AddProject({ handleWarning }: Props) {
         ADD NEW PROJECT
       </h1>
       <div className='mt-6 w-full'>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-4 items-center'>
-
+        <form
+          onSubmit={handleSubmit}
+          className='flex flex-col gap-4 items-center'
+        >
           {/* Project info div */}
           <div className='flex flex-col md:flex-row gap-x-10'>
             <div className='flex flex-col gap-4'>
@@ -90,7 +136,9 @@ export default function AddProject({ handleWarning }: Props) {
                   required
                   type='text'
                   placeholder='Project name'
-                  onChange={(event) => setSlug(event.target.value.toLowerCase().replace(/ /g, '_'))}
+                  onChange={(event) =>
+                    setSlug(event.target.value.toLowerCase().replace(/ /g, '_'))
+                  }
                   className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
                 />
               </label>
@@ -111,6 +159,25 @@ export default function AddProject({ handleWarning }: Props) {
                   className='h-40 p-2 text-sm border-[1px] border-sky-700 rounded'
                 />
               </label>
+
+              <div className='flex flex-col text-xs mb-4'>
+                Stacks:
+                <ReactTags
+                  tags={tags}
+                  suggestions={suggestions}
+                  delimiters={delimiters}
+                  handleDelete={handleDelete}
+                  handleAddition={handleAddition}
+                  handleDrag={handleDrag}
+                  minQueryLength={1}
+                  inputFieldPosition='top'
+                  autocomplete
+                />
+              </div>
+            </div>
+
+            {/* Screenshot upload div */}
+            <div className='flex flex-col gap-4'>
               <label htmlFor='githuburl' className='flex flex-col text-xs'>
                 Github URL (optional)
                 <input
@@ -129,10 +196,6 @@ export default function AddProject({ handleWarning }: Props) {
                   className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
                 />
               </label>
-            </div>
-            
-            {/* Screenshot upload div */}
-            <div className='flex flex-col gap-4'>
               <label className='flex flex-col text-xs'>
                 Upload screenshot:
                 <input
@@ -148,14 +211,18 @@ export default function AddProject({ handleWarning }: Props) {
                 />
                 <div className='aspect-video rounded flex w-96 items-center justify-center border-2 border-dashed cursor-pointer'>
                   {selectedImage ? (
-                    <img src={selectedImage} alt='Screenshot of your project' style={{ maxWidth: '400px' }} />
+                    <img
+                      src={selectedImage}
+                      alt='Screenshot of your project'
+                      style={{ maxWidth: '400px' }}
+                    />
                   ) : (
                     <span>Click to select</span>
                   )}
                 </div>
               </label>
               <button
-                disabled={ uploading || !selectedImage }
+                disabled={uploading || !selectedImage}
                 style={{ opacity: uploading ? '.5' : '1' }}
                 className='bg-red-600 p-2 text-center rounded text-white disabled:bg-red-300 disabled:text-gray-100 disabled:cursor-not-allowed'
                 onClick={handleUpload}
@@ -166,7 +233,7 @@ export default function AddProject({ handleWarning }: Props) {
           </div>
           <button
             type='submit'
-            disabled={ invalidFields }
+            disabled={invalidFields}
             className='bg-blue-600 p-2 text-center rounded text-white w-[300px] disabled:bg-blue-300 disabled:text-gray-100 disabled:cursor-not-allowed'
           >
             Save project in database
