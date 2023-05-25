@@ -42,6 +42,7 @@ export default function ProjectInfo({ project }: Props) {
 
   return (
     <div className='flex flex-col md:flex-row items-center justify-center min-h-screen w-full p-8 gap-4 text-sm'>
+
       {/* Project name div */}
       <div className='md:w-[40vw] flex flex-col items-start gap-y-6'>
         <div className='flex flex-row'>
@@ -50,6 +51,7 @@ export default function ProjectInfo({ project }: Props) {
           </div>
           <h1 className='font-semibold ml-2 tracking-wider'>{project.projectname}</h1>
         </div>
+
         {/* Description div */}
         <div className='flex flex-row'>
           <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
@@ -59,40 +61,47 @@ export default function ProjectInfo({ project }: Props) {
           </div>
           <p className='text-justify ml-2 tracking-wider'>{project.description}</p>
         </div>
-        {/* Stacks div */}
-        <div className='flex flex-row'>
-          <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
-            <div className=' border-b-slate-400 border-b-[0.5px]'>Stacks</div>
-          </div>
-          <div className='flex flex-col gap-y-2 md:flex-row ml-2'>{ project.stacks?.map((stack) => (
-            <span
-              key={stack}
-              className={ coloringStacks() }
-            >
-              {stack}
-            </span>
-          ))}</div>
-        </div>
-        {/* Links div */}
-        <div className='flex flex-row'>
-          <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
-            <div className=' border-b-slate-400 border-b-[0.5px]'>
-              Links
-            </div>
-          </div>
-          <div className='flex flex-col gap-y-2 md:flex-row gap-x-4 ml-2'>
-            <IconContext.Provider value={{ size: '20' }}>
-              {project.githuburl && (<Link href={project.githuburl} target='blank' className='flex flex-row text-xs gap-x-2 items-center px-2 py-[4px] border-zinc-500 border-[1px] rounded hover:bg-slate-100'>
-                <AiOutlineGithub /> Github repo
-              </Link>)}
-              {project.deployurl && (<Link href={project.deployurl} target='blank' className='flex flex-row text-xs gap-x-2 items-center px-2 py-[4px] border-zinc-500 border-[1px] rounded hover:bg-slate-100'>
-                <AiOutlineGlobal /> Live version
-              </Link>)}
-            </IconContext.Provider>
-          </div>
-        </div>
-      </div>
 
+        { /* Stacks div appear only if have at least one stack saved */
+          (project.stacks.length > 0) && (
+            <div className='flex flex-row'>
+              <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
+                <div className=' border-b-slate-400 border-b-[0.5px]'>Stacks</div>
+              </div>
+              <div className='flex flex-row flex-wrap gap-y-2 ml-2'>{ project.stacks?.map((stack) => (
+                <span
+                  key={stack}
+                  className={ coloringStacks() }
+                >
+                  {stack}
+                </span>
+              ))}</div>
+            </div>
+          )
+        }
+
+        { /* Links div appear only if have one link saved */
+          (project.githuburl || project.deployurl) && (
+            <div className='flex flex-row'>
+              <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
+                <div className='border-b-slate-400 border-b-[0.5px]'>
+                  Links
+                </div>
+              </div>
+              <div className='flex flex-row flex-wrap gap-y-2 gap-x-4 ml-2'>
+                <IconContext.Provider value={{ size: '20' }}>
+                  {project.githuburl && (<Link href={project.githuburl} target='blank' className='flex flex-row text-xs gap-x-2 items-center px-2 py-[4px] border-zinc-500 border-[1px] rounded hover:bg-slate-100'>
+                    <AiOutlineGithub /> Github repo
+                  </Link>)}
+                  {project.deployurl && (<Link href={project.deployurl} target='blank' className='flex flex-row text-xs gap-x-2 items-center px-2 py-[4px] border-zinc-500 border-[1px] rounded hover:bg-slate-100'>
+                    <AiOutlineGlobal /> Live version
+                  </Link>)}
+                </IconContext.Provider>
+              </div>
+            </div>
+          )
+        }
+      </div>
       <div className='md:w-[58vw]'>
         <img
           key={project.slug}

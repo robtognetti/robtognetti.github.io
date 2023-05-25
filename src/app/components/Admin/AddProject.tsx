@@ -27,6 +27,7 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 export default function AddProject({ handleWarning, stackList }: Props) {
   const [uploading, setUploading] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+  const [done, setDone] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File>();
   const [imageUrl, setImageUrl] = useState('');
   const [slug, setSlug] = useState('');
@@ -72,6 +73,7 @@ export default function AddProject({ handleWarning, stackList }: Props) {
           handleWarning('Upload complete!');
           setImageUrl(downloadURL);
           setUploading(false);
+          setDone(true);
         });
       },
     );
@@ -192,7 +194,7 @@ export default function AddProject({ handleWarning, stackList }: Props) {
                 <input
                   id='deployurl'
                   type='text'
-                  placeholder='http://www.mywebsite.com'
+                  placeholder='http://mywebsite.com'
                   className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
                 />
               </label>
@@ -222,12 +224,12 @@ export default function AddProject({ handleWarning, stackList }: Props) {
                 </div>
               </label>
               <button
-                disabled={uploading || !selectedImage}
+                disabled={uploading || !selectedImage || done}
                 style={{ opacity: uploading ? '.5' : '1' }}
                 className='bg-red-600 p-2 text-center rounded text-white disabled:bg-red-300 disabled:text-gray-100 disabled:cursor-not-allowed'
                 onClick={handleUpload}
               >
-                {uploading ? 'Wait...' : 'Upload screenshot'}
+                {uploading ? 'Wait...' : (done ? 'Done!' : 'Upload file') }
               </button>
             </div>
           </div>

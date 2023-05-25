@@ -13,6 +13,7 @@ export default async function handler(
     querySnapshot.forEach((doc) => {
       projects.push({ [doc.id]: doc.data() });
     }); 
+    projects.reverse();
     return res.status(200).json({ projects });
   } catch (err) {
     const error = err as Error;
