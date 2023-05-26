@@ -1,4 +1,5 @@
 import About from "./components/About";
+import Documents from "./components/Documents";
 import Footer from "./components/Footer";
 import FunFacts from "./components/FunFacts";
 import { Hero } from "./components/Hero";
@@ -11,6 +12,7 @@ export default function Home() {
         <Hero />
         <About />
         <Projects />
+        <Documents />
         <FunFacts />
       </main>
       <Footer />

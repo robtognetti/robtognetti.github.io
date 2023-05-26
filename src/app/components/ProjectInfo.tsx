@@ -11,37 +11,37 @@ type Props = {
 export default function ProjectInfo({ project }: Props) {
   const palete = [
     {
-      color: 'black',
-      bg: 'red-200',
+      color: 'text-black',
+      bg: 'bg-red-200',
     },
     {
-      color: 'black',
-      bg: 'orange-400',
+      color: 'text-black',
+      bg: 'bg-orange-400',
     },
     {
-      color: 'zinc-900',
-      bg: 'lime-300',
+      color: 'text-zinc-900',
+      bg: 'bg-lime-300',
     },
     {
-      color: 'zinc-900',
-      bg: 'teal-200',
+      color: 'text-zinc-900',
+      bg: 'bg-teal-200',
     },
     {
-      color: 'zinc-100',
-      bg: 'indigo-500',
+      color: 'text-zinc-100',
+      bg: 'bg-indigo-500',
     },
     {
-      color: 'zinc-900',
-      bg: 'yellow-400',
+      color: 'text-zinc-900',
+      bg: 'bg-yellow-400',
     },
   ];
   const coloringStacks = () => {
     const random = Math.floor(Math.random() * palete.length);
-    return `text-${palete[random].color} bg-${palete[random].bg} px-2 py-[4px] mr-4 rounded border-zinc-950 border-[1px] shadow-md text-xs md:text-sm`
+    return `${palete[random].color} ${palete[random].bg} px-2 py-[4px] mr-4 rounded border-zinc-950 border-[1px] shadow-md text-xs`
   };
 
   return (
-    <div className='flex flex-col md:flex-row items-center justify-center min-h-screen w-full p-8 gap-4 text-sm'>
+    <div className='flex flex-col md:flex-row items-center justify-center min-h-screen w-full p-8 gap-4'>
 
       {/* Project name div */}
       <div className='md:w-[40vw] flex flex-col items-start gap-y-6'>
@@ -54,19 +54,19 @@ export default function ProjectInfo({ project }: Props) {
 
         {/* Description div */}
         <div className='flex flex-row'>
-          <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
-            <div className=' border-b-slate-400 border-b-[0.5px]'>
+          <div className='min-w-[130px] md:min-w-[200px] text-left font-light mr-2'>
+            <div className='border-b-slate-400 border-b-[0.5px]'>
               Description
             </div>
           </div>
-          <p className='text-justify ml-2 tracking-wider'>{project.description}</p>
+          <p className='text-justify ml-2'>{project.description}</p>
         </div>
 
         { /* Stacks div appear only if have at least one stack saved */
           (project.stacks.length > 0) && (
             <div className='flex flex-row'>
               <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
-                <div className=' border-b-slate-400 border-b-[0.5px]'>Stacks</div>
+                <div className='border-b-slate-400 border-b-[0.5px]'>Stacks</div>
               </div>
               <div className='flex flex-row flex-wrap gap-y-2 ml-2'>{ project.stacks?.map((stack) => (
                 <span
@@ -83,7 +83,7 @@ export default function ProjectInfo({ project }: Props) {
         { /* Links div appear only if have one link saved */
           (project.githuburl || project.deployurl) && (
             <div className='flex flex-row'>
-              <div className='min-w-[130px] md:min-w-[200px]  text-left font-light mr-2'>
+              <div className='min-w-[130px] md:min-w-[200px] text-left font-light mr-2'>
                 <div className='border-b-slate-400 border-b-[0.5px]'>
                   Links
                 </div>

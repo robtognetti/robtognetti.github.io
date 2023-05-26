@@ -6,8 +6,8 @@ type Props = {}
 
 export default function Footer({}: Props) {
   return (
-    <footer>
-      <div className="container flex flex-col items-center justify-center h-32 gap-2">
+    <footer className='mt-10'>
+      <div className="w-full flex flex-col items-center justify-center h-36 gap-2 bg-[#F7F7F7]">
         <Social />
         <span className='tracking-wider'>
           Website created and designed by <span className='font-semibold'>Rodrigo Sakae</span> in May 2023.

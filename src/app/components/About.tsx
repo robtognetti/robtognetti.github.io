@@ -11,7 +11,7 @@ class About extends Component<Props, State> {
   render() {
     return (
       <section className='min-h-[88vh] flex flex-col lg:flex-row justify-between items-center w-full bg-slate-100'>
-        <div className='my-16 mx-8 min-w-[400px]'>
+        <div className='mt-16 mb-8 mx-8 min-w-[400px]'>
           <div className='div-img'>
             <div className='about-img'>
               <Image src='/mewithasuit.png' alt='This is me' width={ 500 } height={ 500 } />
@@ -19,7 +19,7 @@ class About extends Component<Props, State> {
           </div>
         </div>
         <div className='mx-8'>
-          <div className='flex flex-col gap-4 tracking-wide md:text-normal'>
+          <div className='flex flex-col gap-4 tracking-wide md:text-normal mb-4'>
             <h1 className='font-bold text-xl'>Hello again, world.</h1>
             <p className='indent-6'>
               My first contact with programming was creating shortcuts with <a href="https://pt.wikipedia.org/wiki/QBasic" target="blank">Qbasic</a> on my father&apos;s Pentium 386. Growing up like any other teenager, I enjoyed sports and computers, so I started writing and designing <a href="http://www.mirc.com" target='blank'>mIRC scripts</a> sports themed.
