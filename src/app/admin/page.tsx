@@ -92,7 +92,7 @@ export default function Page({}: Props) {
     return (
       <Fragment>
         <HeaderMenu warning={warning} />
-        <main className='py-20'>
+        <main className='py-28'>
           <AddProject handleWarning={handleWarning} stackList={stackList} />
           <AddFunFacts />
         </main>

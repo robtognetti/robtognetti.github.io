@@ -28,7 +28,6 @@ export default function AddProject({ handleWarning, stackList }: Props) {
   const [uploading, setUploading] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [done, setDone] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File>();
   const [imageUrl, setImageUrl] = useState('');
   const [slug, setSlug] = useState('');
   const [tags, setTags] = useState<Tag[]>([]);
@@ -48,11 +47,11 @@ export default function AddProject({ handleWarning, stackList }: Props) {
     setTags(newTags);
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (selectedFile: File) => {
     setUploading(true);
     const storage = getStorage();
     const storageRef = ref(storage, slug + '/' + selectedFile?.name);
-    const uploadTask = uploadBytesResumable(storageRef, selectedFile as File);
+    const uploadTask = uploadBytesResumable(storageRef, selectedFile);
     uploadTask.on(
       'state_changed',
       (snapshot) => {
@@ -207,7 +206,7 @@ export default function AddProject({ handleWarning, stackList }: Props) {
                     if (target.files) {
                       const file = target.files[0];
                       setSelectedImage(URL.createObjectURL(file));
-                      setSelectedFile(file);
+                      handleUpload(file);
                     }
                   }}
                 />
@@ -223,14 +222,14 @@ export default function AddProject({ handleWarning, stackList }: Props) {
                   )}
                 </div>
               </label>
-              <button
+              {/* <button
                 disabled={uploading || !selectedImage || done}
                 style={{ opacity: uploading ? '.5' : '1' }}
                 className='bg-red-600 p-2 text-center rounded text-white disabled:bg-red-300 disabled:text-gray-100 disabled:cursor-not-allowed'
                 onClick={handleUpload}
               >
                 {uploading ? 'Wait...' : (done ? 'Done!' : 'Upload file') }
-              </button>
+              </button> */}
             </div>
           </div>
           <button
