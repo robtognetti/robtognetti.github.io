@@ -9,7 +9,7 @@ export default function Footer({}: Props) {
     <footer className='mt-10'>
       <div className="w-full flex flex-col items-center justify-center h-36 gap-2 bg-[#F7F7F7]">
         <Social />
-        <span className='tracking-wider'>
+        <span className='tracking-wider text-xs md:text-base'>
           Website created and designed by <span className='font-semibold'>Rodrigo Sakae</span> in May 2023.
         </span>
         <a href='https://nextjs.org/' target='blank' className='flex flex-row items-center justify-center'>

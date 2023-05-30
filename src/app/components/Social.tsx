@@ -1,4 +1,4 @@
-import React, { Component, ComponentElement, ReactComponentElement, ReactElement } from 'react';
+import React, { Component, ReactElement } from 'react';
 import { BsGithub, BsTwitter, BsInstagram, BsLinkedin, BsWhatsapp } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 

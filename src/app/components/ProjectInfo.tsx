@@ -47,7 +47,7 @@ export default function ProjectInfo({ project }: Props) {
       <div className='md:w-[40vw] flex flex-col items-start gap-y-6'>
         <div className='flex flex-row'>
           <div className='min-w-[130px] md:min-w-[200px] text-left font-light border-b-slate-400 border-b-[0.5px] mr-2'>
-            Title
+            Project
           </div>
           <h1 className='font-semibold ml-2 tracking-wider'>{project.projectname}</h1>
         </div>
