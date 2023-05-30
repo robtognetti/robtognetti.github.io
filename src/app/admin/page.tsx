@@ -10,7 +10,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import HeaderMenu from '../components/Admin/HeaderMenu';
 import AddProject from '../components/Admin/AddProject';
-import AddFunFacts from '../components/Admin/AddFunFact';
+import ManageProject from '../components/Admin/ManageProject';
 
 type Props = {};
 
@@ -92,9 +92,9 @@ export default function Page({}: Props) {
     return (
       <Fragment>
         <HeaderMenu warning={warning} />
-        <main className='py-28'>
+        <main className='py-20'>
           <AddProject handleWarning={handleWarning} stackList={stackList} />
-          <AddFunFacts />
+          <ManageProject />
         </main>
       </Fragment>
     );

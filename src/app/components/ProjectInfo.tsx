@@ -41,7 +41,7 @@ export default function ProjectInfo({ project }: Props) {
   };
 
   return (
-    <div className='flex flex-col md:flex-row items-center justify-center min-h-screen w-full p-8 gap-4'>
+    <div className='flex flex-col md:flex-row items-center justify-evenly md:h-[90vh] w-full py-8 px-4 gap-4'>
 
       {/* Project name div */}
       <div className='md:w-[40vw] flex flex-col items-start gap-y-6'>
@@ -102,12 +102,12 @@ export default function ProjectInfo({ project }: Props) {
           )
         }
       </div>
-      <div className='md:w-[58vw]'>
+      <div className='md:w-[58vw] flex items-center justify-center'>
         <img
           key={project.slug}
           src={project.screenshot as string}
           alt={project.projectname}
-          style={{ maxHeight: '90vh', maxWidth: '90%', objectFit: 'contain', boxShadow: '-2px 2px 10px 0 #999' }}
+          style={{ maxHeight: '75vh', maxWidth: '90%', objectFit: 'contain', boxShadow: '-2px 2px 10px 0 #999' }}
         />
       </div>
     </div>

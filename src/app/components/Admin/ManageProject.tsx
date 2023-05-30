@@ -1,12 +1,14 @@
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
+import ProjectEditor from './ProjectEditor';
 
-type Project = {
+export type Project = {
   slug: string,
   projectname: string,
   description?: string,
   githuburl?: string,
   deployurl?: string,
+  screenshot?: string,
+  stacks: string[]
 }
 type Props = {}
 
@@ -35,14 +37,13 @@ export default function ManageProject({ }: Props) {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <>
-      { !loading && projects.map((project: Project) => (
-          <Link key={ project.slug } href={ project.slug } className='flex flex-row gap-x-4'>
-            <div>{ project?.projectname }</div>
-            <div>{ project?.githuburl }</div>
-          </Link>
-        )
-      )}
-    </>
+    <section>
+      <div className='w-full flex flex-col gap-2 items-center justify-center mt-16'>
+        { !loading && projects.map((project: Project) => (
+            <ProjectEditor data={ project } />
+          )
+        )}
+      </div>
+    </section>
   )
 }
