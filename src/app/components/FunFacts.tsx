@@ -18,11 +18,11 @@ const funfacts = [
   },
   {
     title: <ImAndroid />,
-    content: 'Despite my first smartphone runned with Symbian, I am a Android user ever since, and don\'t plan to change it.'
+    content: 'Despite my first smartphone runned on Symbian, I am a Android user ever since, and don\'t plan to change it.'
   },
   {
     title: <ImDroplet />,
-    content: 'Start donating blood at 21, and I am a narrow bone donor since 2019. Join me in this cause!'
+    content: 'Start donating blood when was 21 yo, and I am a narrow bone donor since 2019. Join me in this cause!'
   },
   {
     title: <IoIosBeer />,
@@ -38,7 +38,7 @@ const funfacts = [
   },
   {
     title: <BiGlassesAlt />,
-    content: 'Or not that much, since even after my Lasik surgery, I still use glasses to correct my 0.5 degree myopia.'
+    content: 'Myopic, because even after my Lasik surgery, I still use glasses to correct my low degree myopia.'
   },
   {
     title: <MdGirl />,
@@ -53,8 +53,8 @@ export default function FunFacts({ }: Props) {
         infiniteLoop={true}
         showThumbs={false}
         autoPlay={true}
-        interval={3000}
-        showArrows={false}
+        interval={7000}
+        showArrows={true}
         showStatus={false}
         showIndicators={false}
       >
