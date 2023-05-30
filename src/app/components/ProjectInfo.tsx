@@ -9,35 +9,35 @@ type Props = {
 };
 
 export default function ProjectInfo({ project }: Props) {
-  const palete = [
+  const gradientPalete = [
     {
-      color: 'text-black',
-      bg: 'bg-red-200',
+      from: 'from-yellow-200',
+      to: 'to-yellow-500'
+    },
+     {
+      from: 'from-green-200',
+      to: 'to-green-500'
     },
     {
-      color: 'text-black',
-      bg: 'bg-orange-400',
+      from: 'from-sky-200',
+      to: 'to-sky-500'
     },
     {
-      color: 'text-zinc-900',
-      bg: 'bg-lime-300',
+      from: 'from-pink-200',
+      to: 'to-pink-400'
     },
     {
-      color: 'text-zinc-900',
-      bg: 'bg-teal-200',
+      from: 'from-cyan-200',
+      to: 'to-teal-400'
     },
     {
-      color: 'text-zinc-100',
-      bg: 'bg-indigo-500',
+      from: 'from-violet-100',
+      to: 'to-violet-300'
     },
-    {
-      color: 'text-zinc-900',
-      bg: 'bg-yellow-400',
-    },
-  ];
+  ]
   const coloringStacks = () => {
-    const random = Math.floor(Math.random() * palete.length);
-    return `${palete[random].color} ${palete[random].bg} px-2 py-[4px] mr-4 rounded border-zinc-950 border-[1px] shadow-md text-xs`
+    const random = Math.floor(Math.random() * gradientPalete.length);
+    return `bg-gradient-to-b ${gradientPalete[random].from} ${gradientPalete[random].to} px-2 py-[4px] mr-4 rounded shadow-md text-xs`
   };
 
   return (
