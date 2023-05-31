@@ -14,7 +14,7 @@ import ManageProject from '../components/Admin/ManageProject';
 
 type Props = {};
 
-export const stackList = [
+const stackList = [
   'JavaScript',
   'TypeScript',
   'Python',
