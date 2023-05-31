@@ -23,14 +23,7 @@ export default function ManageProject({ handleWarning, stackList }: Props) {
     setLoading(true);
     await fetch('/api/projects')
       .then((res) => res.json())
-      .then((data) => {
-        setProjects(data.projects);
-        // const projectsdata = data.projects
-        // const allprojects = projectsdata.map((p: any) => {
-        //   return p[Object.keys(p)[0]]
-        // });
-        // setProjects(allprojects);
-      })
+      .then((data) => setProjects(data.projects))
       .catch((error) => alert(error.message))
       .finally(() => setLoading(false));
   }

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsFillEyeSlashFill, BsFillEyeFill } from 'react-icons/bs';
 import { Project } from './ManageProject';
-import { deleteObject, getStorage, ref } from 'firebase/storage';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
+import Image from 'next/image';
 
 type Props = {
   data: any;
@@ -16,11 +17,63 @@ function ProjectEditor({ data, handleWarning }: Props) {
   const [active, setActive] = useState<boolean>(false);
   const [notdeleting, setNotdeleting] = useState(true);
   const [notconfirmed, setNotconfirmed] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+
+  useEffect(() => {
+    setSelectedImage(project.screenshot);
+    setImageUrl(project.screenshot);
+  }, [])
 
   const deleteProject = async (e: any) => {
     e.preventDefault();
-   await deleteDoc(doc(db, 'projects', id));
+    await deleteDoc(doc(db, 'projects', id));
     handleWarning('Project deleted');
+  }
+
+  const handleUpload = async (selectedFile: File) => {
+    setUploading(true);
+    const storage = getStorage();
+    const storageRef = ref(storage, project.slug + '/' + selectedFile?.name);
+    const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        handleWarning('Uploading... ' + progress.toFixed(2) + '%');
+        switch (snapshot.state) {
+          case 'paused':
+            handleWarning('Upload is paused');
+            break;
+        }
+      },
+      (error) => {
+        handleWarning(error.message);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadURL) => {
+          handleWarning('Upload complete!');
+          setImageUrl(downloadURL);
+          setUploading(false);
+        });
+      },
+    );
+  };
+
+  const updateProject = async (event: any) => {
+    event.preventDefault();
+    const data = {
+      projectname: event.target.projectname.value,
+      description: event.target.description.value,
+      githuburl: event.target.githuburl.value,
+      deployurl: event.target.deployurl.value,
+      screenshot: imageUrl,
+    };
+    await updateDoc(doc(db, 'projects', id), data);
+    handleWarning('Project updated');
   }
 
   return (
@@ -40,7 +93,10 @@ function ProjectEditor({ data, handleWarning }: Props) {
       </div>
       {active && (
         <div className='flex justify-center w-full'>
-          <form className='flex flex-col lg:w-full items-center justify-evenly'>
+          <form
+            onSubmit={updateProject}
+            className='flex flex-col lg:w-full items-center justify-evenly'
+          >
             <div className='flex flex-row'>
               <div className='flex flex-col items-start gap-y-4 p-4 w-full'>
                 <label htmlFor='projectname' className='flex flex-col text-xs'>
@@ -86,6 +142,32 @@ function ProjectEditor({ data, handleWarning }: Props) {
                     className='w-96 h-8 p-2 text-sm border-[1px] border-sky-700 rounded'
                   />
                 </label>
+                <label className='flex flex-col text-xs'>
+                Upload screenshot:
+                <input
+                  type='file'
+                  hidden
+                  onChange={({ target }) => {
+                    if (target.files) {
+                      const file = target.files[0];
+                      setSelectedImage(URL.createObjectURL(file));
+                      handleUpload(file);
+                    }
+                  }}
+                />
+                <div className='aspect-video rounded flex w-96 items-center justify-center border-2 border-dashed cursor-pointer'>
+                  {selectedImage ? (
+                    <Image
+                      src={selectedImage}
+                      alt='Screenshot of your project'
+                      width={400}
+                      height={400}
+                    />
+                  ) : (
+                    <span>Click to select</span>
+                  )}
+                </div>
+              </label>
               </div>
             </div>
             <div
@@ -114,6 +196,7 @@ function ProjectEditor({ data, handleWarning }: Props) {
             </div>
             <div className='flex gap-4 p-2'>
               <button
+                type='submit'
                 className='bg-blue-600 p-2 text-center rounded text-white w-[300px] disabled:bg-blue-300 disabled:text-gray-100 disabled:cursor-not-allowed'
               >
                 Save
