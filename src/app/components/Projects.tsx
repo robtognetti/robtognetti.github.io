@@ -44,6 +44,7 @@ export default function Projects({}: Props) {
       <Carousel
         infiniteLoop={true}
         showThumbs={false}
+        swipeable={false}
       >
         {!loading && projects.map((project: Project) => (<ProjectInfo key={ project.slug } project={ project } />))}
       </Carousel>

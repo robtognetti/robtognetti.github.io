@@ -41,7 +41,7 @@ export default function ProjectInfo({ project }: Props) {
   };
 
   return (
-    <div className='flex flex-col w-full items-center justify-around md:flex-row gap-y-6 md:gap-y-0 md:justify-evenly p-6 min-h-full'>
+    <div className='flex flex-col w-full items-center justify-around md:flex-row gap-x-4 gap-y-6 md:gap-y-0 md:justify-evenly p-6 min-h-full'>
 
       {/* Project name div */}
       <div className='md:w-[40vw] flex flex-col items-start gap-y-6'>
