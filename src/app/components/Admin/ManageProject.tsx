@@ -10,9 +10,12 @@ export type Project = {
   screenshot?: string,
   stacks: string[]
 }
-type Props = {}
+type Props = {
+  handleWarning: (message: string) => void;
+  stackList: string[];
+}
 
-export default function ManageProject({ }: Props) {
+export default function ManageProject({ handleWarning, stackList }: Props) {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
 
@@ -21,11 +24,12 @@ export default function ManageProject({ }: Props) {
     await fetch('/api/projects')
       .then((res) => res.json())
       .then((data) => {
-        const projectsdata = data.projects
-        const allprojects = projectsdata.map((p: any) => {
-          return p[Object.keys(p)[0]]
-        });
-        setProjects(allprojects);
+        setProjects(data.projects);
+        // const projectsdata = data.projects
+        // const allprojects = projectsdata.map((p: any) => {
+        //   return p[Object.keys(p)[0]]
+        // });
+        // setProjects(allprojects);
       })
       .catch((error) => alert(error.message))
       .finally(() => setLoading(false));
@@ -40,7 +44,7 @@ export default function ManageProject({ }: Props) {
     <section>
       <div className='w-full flex flex-col gap-2 items-center justify-center mt-16'>
         { !loading && projects.map((project: Project, idx) => (
-            <ProjectEditor key={ idx } data={ project } />
+            <ProjectEditor key={ idx } data={ project } handleWarning={ handleWarning } />
           )
         )}
       </div>

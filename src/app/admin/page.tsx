@@ -14,7 +14,7 @@ import ManageProject from '../components/Admin/ManageProject';
 
 type Props = {};
 
-const stackList = [
+export const stackList = [
   'JavaScript',
   'TypeScript',
   'Python',
@@ -94,7 +94,7 @@ export default function Page({}: Props) {
         <HeaderMenu warning={warning} />
         <main className='py-20'>
           <AddProject handleWarning={handleWarning} stackList={stackList} />
-          <ManageProject />
+          <ManageProject handleWarning={handleWarning} stackList={stackList} />
         </main>
       </Fragment>
     );

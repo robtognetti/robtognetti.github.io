@@ -11,7 +11,7 @@ type Props = {
 
 export const FunFactSingle = ({ fun }: Props) => {
   return (
-    <div className='flex items-center justify-center max-w-full gap-y-4 my-6 h-60'>
+    <div className='flex items-center justify-center max-w-full h-80'>
       <IconContext.Provider value={{ size: '8em', color: '#757575' }}>
         <div className='flex flex-col justify-center gap-y-4 items-center max-w-sm'>
           {fun.title}
