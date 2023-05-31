@@ -6,6 +6,7 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { WithContext as ReactTags } from 'react-tag-input';
+import Image from 'next/image';
 
 type Props = {
   handleWarning: (message: string) => void;
@@ -212,10 +213,11 @@ export default function AddProject({ handleWarning, stackList }: Props) {
                 />
                 <div className='aspect-video rounded flex w-96 items-center justify-center border-2 border-dashed cursor-pointer'>
                   {selectedImage ? (
-                    <img
+                    <Image
                       src={selectedImage}
                       alt='Screenshot of your project'
-                      style={{ maxWidth: '400px' }}
+                      width={400}
+                      height={400}
                     />
                   ) : (
                     <span>Click to select</span>

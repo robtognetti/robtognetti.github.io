@@ -39,8 +39,8 @@ export default function ManageProject({ }: Props) {
   return (
     <section>
       <div className='w-full flex flex-col gap-2 items-center justify-center mt-16'>
-        { !loading && projects.map((project: Project) => (
-            <ProjectEditor data={ project } />
+        { !loading && projects.map((project: Project, idx) => (
+            <ProjectEditor key={ idx } data={ project } />
           )
         )}
       </div>
