@@ -5,25 +5,10 @@ import Footer from "./components/Footer";
 import FunFacts from "./components/FunFacts";
 import { Hero } from "./components/Hero";
 import Projects from "./components/Projects";
-const tag = process.env.NEXT_PUBLIC_MEASUREMENT_ID
 
 export default function Home() {
   return (
     <>
-    {/* Google tag (gtag.js) */}
-    <Script
-      src={ `https://www.googletagmanager.com/gtag/js?id=${tag}`}
-      strategy="afterInteractive"
-    />
-    <Script id="google-analytics" strategy="afterInteractive">
-      {`
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-HCQ6KVJ685');
-      `}
-    </Script>
       <main>
         <Hero />
         <About />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Project } from './Projects';
 import { AiOutlineGlobal, AiOutlineGithub } from 'react-icons/ai';
 import { IconContext } from "react-icons";
@@ -6,9 +6,10 @@ import Link from 'next/link';
 
 type Props = {
   project: Project;
+  children: ReactNode;
 };
 
-export default function ProjectInfo({ project }: Props) {
+export default function ProjectInfo({ project, children }: Props) {
   const gradientPalete = [
     {
       from: 'from-yellow-200',
@@ -41,7 +42,7 @@ export default function ProjectInfo({ project }: Props) {
   };
 
   return (
-    <div className='flex flex-col w-full items-center justify-around md:flex-row gap-x-4 gap-y-6 md:gap-y-0 md:justify-evenly p-6 min-h-full'>
+    <div className='flex flex-col w-full items-start justify-around md:flex-row gap-x-4 gap-y-6 md:gap-y-0 md:justify-evenly p-6'>
 
       {/* Project name div */}
       <div className='md:w-[40vw] flex flex-col items-start gap-y-6'>
@@ -102,13 +103,8 @@ export default function ProjectInfo({ project }: Props) {
           )
         }
       </div>
-      <div className='h-[200px] md:h-screen md:w-[58vw] flex items-center justify-center'>
-        <img
-          key={project.slug}
-          src={project.screenshot as string}
-          alt={project.projectname}
-          style={{ maxWidth: '95%', objectFit: 'contain', boxShadow: '-2px 2px 10px 0 #999' }}
-        />
+      <div className='md:w-[58vw] flex items-start justify-center'>
+       { children }
       </div>
     </div>
   );

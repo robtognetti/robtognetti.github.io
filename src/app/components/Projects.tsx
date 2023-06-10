@@ -43,10 +43,25 @@ export default function Projects({}: Props) {
     <section>
       <Carousel
         infiniteLoop={true}
-        showThumbs={false}
+        showThumbs={true}
+        showIndicators={ false }
+        showStatus={ false }
+        thumbWidth={ 100 }
         swipeable={false}
+        autoPlay={ true }
+        interval={ 5000 }
+        transitionTime={ 1000 }
       >
-        {!loading && projects.map((project: Project) => (<ProjectInfo key={ project.slug } project={ project } />))}
+        {!loading && projects.map((project: Project) => (
+        <ProjectInfo key={ project.slug } project={ project }>
+          <img
+            key={project.slug}
+            src={project.screenshot as string}
+            alt={project.projectname}
+            style={{ maxWidth: '95%', objectFit: 'contain', boxShadow: '-2px 2px 10px 0 #999' }}
+          />
+        </ProjectInfo>
+        ))}
       </Carousel>
     </section>
   )

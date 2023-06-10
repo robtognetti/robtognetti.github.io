@@ -24,7 +24,7 @@ function ProjectEditor({ data, handleWarning }: Props) {
   useEffect(() => {
     setSelectedImage(project.screenshot);
     setImageUrl(project.screenshot);
-  }, [])
+  }, [project.screenshot])
 
   const deleteProject = async (e: any) => {
     e.preventDefault();
