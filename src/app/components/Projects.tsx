@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import ProjectInfo from './ProjectInfo';
+import Loading from './Loading';
 
 export type Project = {
   slug: string,
@@ -37,7 +38,11 @@ export default function Projects({}: Props) {
     getProjects();
   }, [])
 
-  if (loading) return (<section><div className='flex items-center justify-center h-20 text-center'>Loading projects...</div></section>);
+  if (loading) return (
+    <section className='w-full h-96 flex flex-col items-center justify-center'>
+      <Loading />
+    </section>
+  )
 
   return (
     <section>
@@ -47,10 +52,13 @@ export default function Projects({}: Props) {
         showIndicators={ false }
         showStatus={ false }
         thumbWidth={ 100 }
+        className='text-center'
         swipeable={false}
         autoPlay={ true }
         interval={ 5000 }
         transitionTime={ 1000 }
+        preventMovementUntilSwipeScrollTolerance={true}
+        swipeScrollTolerance={50}
       >
         {!loading && projects.map((project: Project) => (
         <ProjectInfo key={ project.slug } project={ project }>
