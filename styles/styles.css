@@ -98,6 +98,7 @@ section {
   justify-content: center;
   transform: translateY(-50%);
 }
+
 .controls .control {
   padding: 1rem;
   cursor: pointer;
@@ -110,16 +111,43 @@ section {
   align-items: center;
   margin: 0.7rem 0;
   box-shadow: var(--box-shadow-1);
+  position: relative;
+  z-index: 1;
 }
+
 .controls .control i {
   font-size: 1.2rem;
   color: var(--color-grey-2);
   pointer-events: none;
 }
+
 .controls .active-btn {
   background-color: var(--color-secondary);
   transition: all 0.4s ease-in-out;
 }
+
+.controls .active-btn::after {
+  content: attr(data-text);
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+  color: var(--color-white);
+  background-color: var(--color-secondary);
+  padding: 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease-in-out;
+}
+
+.controls .active-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
 .controls .active-btn i {
   color: var(--color-white);
 }
@@ -139,14 +167,17 @@ section {
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
   transition: all 0.1s ease-in-out;
 }
+
 .theme-btn:active {
   transform: translateY(-3px);
 }
+
 .theme-btn i {
   font-size: 1.4rem;
   color: var(--color-grey-2);
   pointer-events: none;
 }
+
 
 /*Header-content*/
 .header-content {
